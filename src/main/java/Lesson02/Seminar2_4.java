@@ -9,7 +9,7 @@ package Lesson02;
 // перебора на больших массивах
 import java.util.Arrays;
 
-public class Seminar3_4 {
+public class Seminar2_4 {
     public static void main(String[] args) {
         int size = 100;
         int min  = 1;
