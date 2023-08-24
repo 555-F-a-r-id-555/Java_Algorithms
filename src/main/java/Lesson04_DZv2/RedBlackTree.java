@@ -1,18 +1,20 @@
-package Lesson04_DZ;
+package Lesson04_DZv2;
 
-import java.util.LinkedList;;
+
+import java.util.LinkedList;
 import java.util.Queue;
 
-public class RedBlackTree {
+
+public class RedBlackTree<T extends Comparable> {
     private Node root;
 
     class Node {
-        private int value;
+        private T value;
         private Color color;
         private Node leftChild;
         private Node rightChild;
 
-        public Node(int value) {
+        public Node(T value) {
             this.value = value;
             this.color = Color.RED; // Новые узлы всегда красные
             this.leftChild = null;
@@ -32,7 +34,7 @@ public class RedBlackTree {
         RED, BLACK
     }
 
-    public boolean add(int value) {
+    public boolean add(T value) {
         if (root != null) {
             boolean result = addNode(root, value);
             root = rebalance(root);
@@ -45,11 +47,11 @@ public class RedBlackTree {
         }
     }
 
-    private boolean addNode(Node node, int value) {
-        if (node.value == value) {
+    private boolean addNode(Node node, T value) {
+        if (node.value.compareTo(value) == 0) {
             return false;
         } else {
-            if (node.value > value) {
+            if (node.value.compareTo(value) > 0) {
                 if (node.leftChild != null) {
                     boolean result = addNode(node.leftChild, value);
                     node.leftChild = rebalance(node.leftChild);
@@ -121,9 +123,11 @@ public class RedBlackTree {
         node.color = Color.RED;
     }
 
+    // симметричный обход с выводом значений
     public void inorderTraversal() {
         inorderTraversalRec(root);
     }
+
 
     private void inorderTraversalRec(Node root) {
         if (root != null) {
@@ -133,9 +137,10 @@ public class RedBlackTree {
         }
     }
 
+    // обход в ширину с выводом значений
     public void breadthFirstTraversal() {
         if (root == null) {
-            System.out.println("The tree is empty.");
+            System.out.println("Дерево пустое.");
             return;
         }
 
@@ -158,33 +163,29 @@ public class RedBlackTree {
     }
 
     // поиск значения
-    public boolean exist(int value) {
-        if (root != null) {
-            Node node = find(root, value);
-            if (node != null) {
-                return true;
-            }
-        }
-        return false;
+    public boolean search(T value) {
+        return searchRec(root, value);
     }
 
-    // обход в глубину;
-    private Node find(Node node, int value) {
+    // обход в глубину
+    private boolean searchRec(Node node, T value) {
         if (node == null) {
-            return null;
+            return false;
         }
 
-        if (node.value == value) {
-            return node;
+        int comparisonResult = value.compareTo(node.value);
+
+        if (comparisonResult == 0) {
+            return true;
         }
 
-        if (node.value > value) {
-            return find(node.leftChild, value);
+        if (comparisonResult < 0) {
+            return searchRec(node.leftChild, value);
         } else {
-            return find(node.rightChild, value);
+            return searchRec(node.rightChild, value);
         }
-    }
 
+    }
 
     public static void main(String[] args) {
         RedBlackTree tree = new RedBlackTree();
@@ -202,15 +203,12 @@ public class RedBlackTree {
         System.out.println("Симметричный обход(выводит вершины в отсортированном порядке):");
         tree.inorderTraversal();
 
-
         System.out.println("\n");
-        System.out.println("tree.exist(22) = " + tree.exist(22));
-        System.out.println("tree.exist(2) = " + tree.exist(2));
-        System.out.println("tree.exist(220) = " + tree.exist(220));
-        System.out.println("tree.exist(5) = " + tree.exist(5));
-        System.out.println("tree.exist(15) = " + tree.exist(15));
-
-
+        System.out.println("tree.exist(22) = " + tree.search(22));
+        System.out.println("tree.exist(2) = " + tree.search(2));
+        System.out.println("tree.exist(220) = " + tree.search(220));
+        System.out.println("tree.exist(5) = " + tree.search(5));
+        System.out.println("tree.exist(15) = " + tree.search(15));
     }
 }
 
