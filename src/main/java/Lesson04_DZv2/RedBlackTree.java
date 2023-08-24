@@ -4,6 +4,21 @@ package Lesson04_DZv2;
 import java.util.LinkedList;
 import java.util.Queue;
 
+//1. Необходимо превратить собранное на семинаре дерево поиска в
+//        полноценное левостороннее красно-черное дерево. И реализовать
+//        в нем метод добавления новых элементов с балансировкой.
+//2. Красно-черное дерево имеет следующие критерии:
+//        ● Каждая нода имеет цвет (красный или черный)
+//        ● Корень дерева всегда черный
+//        ● Новая нода всегда красная
+//        ● Красные ноды могут быть только левым ребенком
+//        ● У красной ноды все дети черного цвета
+//3. Соответственно, чтобы данные условия выполнялись, после
+//        добавления элемента в дерево необходимо произвести
+//        балансировку, благодаря которой все критерии выше станут
+//        валидными.
+//4. Для балансировки существует 3 операции – левый малый поворот,
+//        правый малый поворот и смена цвета.
 
 public class RedBlackTree<T extends Comparable> {
     private Node root;
@@ -34,6 +49,11 @@ public class RedBlackTree<T extends Comparable> {
         RED, BLACK
     }
 
+    /**
+     * @apiNote -  Красно-черное дерево, метод добавляющий значение
+     * @param value - добавляемое значение
+     * @return  - либо true либо false
+     */
     public boolean add(T value) {
         if (root != null) {
             boolean result = addNode(root, value);
@@ -162,7 +182,11 @@ public class RedBlackTree<T extends Comparable> {
         System.out.println();
     }
 
-    // поиск значения
+    /**
+     * @apiNote -поиск значения в красно-черном дереве
+     * @param value - искомое значение
+     * @return - true либо false
+     */
     public boolean search(T value) {
         return searchRec(root, value);
     }
